@@ -6,6 +6,7 @@ import MyGigs from '../components/MyGigs';
 import Portfolio from '../components/Portfolio';
 import Messages from '../components/Messages';
 import Orders from '../components/Orders';
+import ExpenseIncome from '../components/ExpenseIncome';
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState('Browse Gigs');
@@ -25,6 +26,8 @@ const DashboardPage = () => {
       setActiveTab('Messages');
     } else if (tab === 'orders') {
       setActiveTab('Orders');
+    } else if (tab === 'expense-income') {
+      setActiveTab('Expense and Income');
     }
   }, [location.search]);
   
@@ -92,7 +95,7 @@ const DashboardPage = () => {
     }
   ];
 
-  const tabs = ['Browse Gigs', 'AI Picks', 'My Gigs', 'Portfolio', 'Messages', 'Orders', 'Earnings'];
+  const tabs = ['Browse Gigs', 'AI Picks', 'My Gigs', 'Portfolio', 'Messages', 'Orders', 'Expense and Income'];
   const categories = ['All Categories', 'React Development', 'Math Tutoring', 'Video Editing', 'Graphic Design', 'Data Science', 'Writing'];
 
   const profileStats = {
@@ -248,6 +251,8 @@ const DashboardPage = () => {
               <Messages />
             ) : activeTab === 'Orders' ? (
               <Orders />
+            ) : activeTab === 'Expense and Income' ? (
+              <ExpenseIncome />
             ) : (
               <>
                 {/* Search and Filter */}
