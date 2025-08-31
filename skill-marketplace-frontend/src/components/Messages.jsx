@@ -239,12 +239,121 @@ const Messages = () => {
     setNewMessage('');
   }, [newMessage, selectedMessage]);
 
+  const handleSearchChange = useCallback((e) => {
+    setSearchTerm(e.target.value);
+  }, []);
+
+  const handleMessageInputChange = useCallback((e) => {
+    setNewMessage(e.target.value);
+  }, []);
+
   const filteredMessages = messages.filter(message =>
     message.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     message.project.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const MessagesList = () => (
+  if (selectedMessage) {
+    return (
+      <div className="space-y-6">
+        {/* Chat Header */}
+        <div className="flex items-center justify-between bg-white/5 backdrop-blur-lg rounded-lg p-4 border border-white/10">
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={() => setSelectedMessage(null)}
+              className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700/50 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            
+            <div className="relative">
+              <img
+                src={selectedMessage.avatar}
+                alt={selectedMessage.name}
+                className="w-10 h-10 rounded-full object-cover"
+              />
+              {selectedMessage.isOnline && (
+                <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-gray-900 rounded-full"></div>
+              )}
+            </div>
+            
+            <div>
+              <h3 className="text-white font-medium">{selectedMessage.name}</h3>
+              <p className="text-gray-400 text-sm">{selectedMessage.project}</p>
+            </div>
+          </div>
+          
+          <button className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700/50 transition-colors">
+            <MoreVertical className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Chat Messages */}
+        <div className="bg-white/5 backdrop-blur-lg rounded-lg border border-white/10 min-h-[400px] max-h-[500px] overflow-y-auto p-4">
+          {chatMessages.length === 0 ? (
+            <div className="flex items-center justify-center h-full">
+              <p className="text-gray-400">No messages yet. Start the conversation!</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {chatMessages.map((message) => (
+                <ChatMessage
+                  key={message.id}
+                  message={message}
+                  isOwnMessage={message.isOwnMessage}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Message Input */}
+        <form onSubmit={handleSendMessage} className="bg-white/5 backdrop-blur-lg rounded-lg p-4 border border-white/10">
+          <div className="flex items-end space-x-3">
+            <button
+              type="button"
+              className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700/50 transition-colors"
+            >
+              <Paperclip className="w-5 h-5" />
+            </button>
+            
+            <div className="flex-1">
+              <textarea
+                value={newMessage}
+                onChange={handleMessageInputChange}
+                placeholder="Type your message..."
+                rows={2}
+                autoComplete="off"
+                className="w-full px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-white placeholder-gray-400 resize-none"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage(e);
+                  }
+                }}
+              />
+            </div>
+            
+            <button
+              type="button"
+              className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700/50 transition-colors"
+            >
+              <Smile className="w-5 h-5" />
+            </button>
+            
+            <button
+              type="submit"
+              disabled={!newMessage.trim()}
+              className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            >
+              <Send className="w-5 h-5" />
+            </button>
+          </div>
+        </form>
+      </div>
+    );
+  }
+
+  return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
@@ -261,7 +370,8 @@ const Messages = () => {
           type="text"
           placeholder="Search messages..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleSearchChange}
+          autoComplete="off"
           className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-white placeholder-gray-400"
         />
       </div>
@@ -291,106 +401,6 @@ const Messages = () => {
       </div>
     </div>
   );
-
-  const ChatView = () => (
-    <div className="space-y-6">
-      {/* Chat Header */}
-      <div className="flex items-center justify-between bg-white/5 backdrop-blur-lg rounded-lg p-4 border border-white/10">
-        <div className="flex items-center space-x-3">
-          <button
-            onClick={() => setSelectedMessage(null)}
-            className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700/50 transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          
-          <div className="relative">
-            <img
-              src={selectedMessage.avatar}
-              alt={selectedMessage.name}
-              className="w-10 h-10 rounded-full object-cover"
-            />
-            {selectedMessage.isOnline && (
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-gray-900 rounded-full"></div>
-            )}
-          </div>
-          
-          <div>
-            <h3 className="text-white font-medium">{selectedMessage.name}</h3>
-            <p className="text-gray-400 text-sm">{selectedMessage.project}</p>
-          </div>
-        </div>
-        
-        <button className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700/50 transition-colors">
-          <MoreVertical className="w-5 h-5" />
-        </button>
-      </div>
-
-      {/* Chat Messages */}
-      <div className="bg-white/5 backdrop-blur-lg rounded-lg border border-white/10 min-h-[400px] max-h-[500px] overflow-y-auto p-4">
-        {chatMessages.length === 0 ? (
-          <div className="flex items-center justify-center h-full">
-            <p className="text-gray-400">No messages yet. Start the conversation!</p>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {chatMessages.map((message) => (
-              <ChatMessage
-                key={message.id}
-                message={message}
-                isOwnMessage={message.isOwnMessage}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Message Input */}
-      <form onSubmit={handleSendMessage} className="bg-white/5 backdrop-blur-lg rounded-lg p-4 border border-white/10">
-        <div className="flex items-end space-x-3">
-          <button
-            type="button"
-            className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700/50 transition-colors"
-          >
-            <Paperclip className="w-5 h-5" />
-          </button>
-          
-          <div className="flex-1">
-            <textarea
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type your message..."
-              rows={2}
-              className="w-full px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-white placeholder-gray-400 resize-none"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSendMessage(e);
-                }
-              }}
-            />
-          </div>
-          
-          <button
-            type="button"
-            className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700/50 transition-colors"
-          >
-            <Smile className="w-5 h-5" />
-          </button>
-          
-          <button
-            type="submit"
-            disabled={!newMessage.trim()}
-            className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-          >
-            <Send className="w-5 h-5" />
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-
-  return selectedMessage ? <ChatView /> : <MessagesList />;
 };
 
 export default Messages;
