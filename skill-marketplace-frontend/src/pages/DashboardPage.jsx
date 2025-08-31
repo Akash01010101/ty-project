@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Star, MapPin, Clock, Filter } from 'lucide-react';
 import MyGigs from '../components/MyGigs';
 import Portfolio from '../components/Portfolio';
+import Messages from '../components/Messages';
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState('Browse Gigs');
@@ -19,6 +20,8 @@ const DashboardPage = () => {
       setActiveTab('My Gigs');
     } else if (tab === 'portfolio') {
       setActiveTab('Portfolio');
+    } else if (tab === 'messages') {
+      setActiveTab('Messages');
     }
   }, [location.search]);
   
@@ -238,6 +241,8 @@ const DashboardPage = () => {
               <MyGigs />
             ) : activeTab === 'Portfolio' ? (
               <Portfolio />
+            ) : activeTab === 'Messages' ? (
+              <Messages />
             ) : (
               <>
                 {/* Search and Filter */}
