@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Star, MapPin, Clock, Filter } from 'lucide-react';
 import MyGigs from '../components/MyGigs';
+import Portfolio from '../components/Portfolio';
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState('Browse Gigs');
@@ -16,6 +17,8 @@ const DashboardPage = () => {
     const tab = urlParams.get('tab');
     if (tab === 'my-gigs') {
       setActiveTab('My Gigs');
+    } else if (tab === 'portfolio') {
+      setActiveTab('Portfolio');
     }
   }, [location.search]);
   
@@ -233,6 +236,8 @@ const DashboardPage = () => {
             {/* Content based on active tab */}
             {activeTab === 'My Gigs' ? (
               <MyGigs />
+            ) : activeTab === 'Portfolio' ? (
+              <Portfolio />
             ) : (
               <>
                 {/* Search and Filter */}
