@@ -1,11 +1,23 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Star, MapPin, Clock, Filter } from 'lucide-react';
+import MyGigs from '../components/MyGigs';
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState('Browse Gigs');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Check URL parameters to set active tab
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const tab = urlParams.get('tab');
+    if (tab === 'my-gigs') {
+      setActiveTab('My Gigs');
+    }
+  }, [location.search]);
   
   // Mock data that matches the screenshot
   const gigs = [
@@ -218,95 +230,102 @@ const DashboardPage = () => {
               ))}
             </div>
 
-            {/* Search and Filter */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 mb-4 sm:mb-6">
-              <div className="flex-1 relative">
-                <input
-                  type="text"
-                  placeholder="Search gigs, skills, or keywords..."
-                  className="w-full px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-white placeholder-gray-400"
-                />
-              </div>
-              <div className="flex items-center space-x-2 w-full sm:w-auto">
-                <Filter className="w-4 h-4 text-gray-400" />
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="flex-1 sm:flex-none px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-white"
-                >
-                  {categories.map((category) => (
-                    <option key={category} value={category}>{category}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Gigs Grid */}
-            <div className="grid grid-cols-1 gap-4 sm:gap-6">
-              {gigs.map((gig) => (
-                <motion.div
-                  key={gig.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white/5 backdrop-blur-lg rounded-lg p-4 sm:p-6 shadow-sm border border-white/10 hover:shadow-md transition-shadow"
-                >
-                  <div className="flex items-start space-x-4 mb-4">
-                    <img
-                      src={gig.user.avatar}
-                      alt={gig.user.name}
-                      className="w-12 h-12 rounded-full object-cover"
+            {/* Content based on active tab */}
+            {activeTab === 'My Gigs' ? (
+              <MyGigs />
+            ) : (
+              <>
+                {/* Search and Filter */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 mb-4 sm:mb-6">
+                  <div className="flex-1 relative">
+                    <input
+                      type="text"
+                      placeholder="Search gigs, skills, or keywords..."
+                      className="w-full px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-white placeholder-gray-400"
                     />
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-white mb-1">{gig.title}</h3>
-                      <div className="flex flex-wrap items-center space-x-1 sm:space-x-2 text-sm text-gray-300">
-                        <span>{gig.user.name}</span>
-                        <span className="hidden sm:inline">•</span>
-                        <div className="flex items-center">
-                          <MapPin className="w-3 h-3 mr-1" />
-                          <span className="text-xs sm:text-sm">{gig.user.location}</span>
-                        </div>
-                        <span className="hidden sm:inline">•</span>
-                        <div className="flex items-center">
-                          <Star className="w-3 h-3 text-yellow-400 mr-1" />
-                          <span className="text-xs sm:text-sm">{gig.user.rating} ({gig.user.reviews})</span>
+                  </div>
+                  <div className="flex items-center space-x-2 w-full sm:w-auto">
+                    <Filter className="w-4 h-4 text-gray-400" />
+                    <select
+                      value={selectedCategory}
+                      onChange={(e) => setSelectedCategory(e.target.value)}
+                      className="flex-1 sm:flex-none px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-white"
+                    >
+                      {categories.map((category) => (
+                        <option key={category} value={category}>{category}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+    
+                {/* Gigs Grid */}
+                <div className="grid grid-cols-1 gap-4 sm:gap-6">
+                  {gigs.map((gig) => (
+                    <motion.div
+                      key={gig.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="bg-white/5 backdrop-blur-lg rounded-lg p-4 sm:p-6 shadow-sm border border-white/10 hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex items-start space-x-4 mb-4">
+                        <img
+                          src={gig.user.avatar}
+                          alt={gig.user.name}
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-white mb-1">{gig.title}</h3>
+                          <div className="flex flex-wrap items-center space-x-1 sm:space-x-2 text-sm text-gray-300">
+                            <span>{gig.user.name}</span>
+                            <span className="hidden sm:inline">•</span>
+                            <div className="flex items-center">
+                              <MapPin className="w-3 h-3 mr-1" />
+                              <span className="text-xs sm:text-sm">{gig.user.location}</span>
+                            </div>
+                            <span className="hidden sm:inline">•</span>
+                            <div className="flex items-center">
+                              <Star className="w-3 h-3 text-yellow-400 mr-1" />
+                              <span className="text-xs sm:text-sm">{gig.user.rating} ({gig.user.reviews})</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-300 text-sm mb-4 line-clamp-2">{gig.description}</p>
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {gig.skills.map((skill, index) => (
-                      <span key={index} className="px-2 py-1 bg-gray-700/50 text-gray-300 text-xs rounded">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0">
-                    <div className="flex items-center space-x-4">
-                      <div className="text-left sm:text-right">
-                        <div className="text-xl sm:text-2xl font-bold text-pink-400">${gig.price}</div>
-                        <div className="text-xs text-gray-400 flex items-center">
-                          <Clock className="w-3 h-3 mr-1" />
-                          {gig.duration}
+                      
+                      <p className="text-gray-300 text-sm mb-4 line-clamp-2">{gig.description}</p>
+                      
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {gig.skills.map((skill, index) => (
+                          <span key={index} className="px-2 py-1 bg-gray-700/50 text-gray-300 text-xs rounded">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                      
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0">
+                        <div className="flex items-center space-x-4">
+                          <div className="text-left sm:text-right">
+                            <div className="text-xl sm:text-2xl font-bold text-pink-400">${gig.price}</div>
+                            <div className="text-xs text-gray-400 flex items-center">
+                              <Clock className="w-3 h-3 mr-1" />
+                              {gig.duration}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
+                          <button className="px-3 sm:px-4 py-2 text-gray-300 border border-gray-600 rounded hover:bg-gray-700/50 text-sm">
+                            Contact
+                          </button>
+                          <button className="px-3 sm:px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded hover:from-purple-600 hover:to-pink-600 text-sm">
+                            Order Now
+                          </button>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
-                      <button className="px-3 sm:px-4 py-2 text-gray-300 border border-gray-600 rounded hover:bg-gray-700/50 text-sm">
-                        Contact
-                      </button>
-                      <button className="px-3 sm:px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded hover:from-purple-600 hover:to-pink-600 text-sm">
-                        Order Now
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
