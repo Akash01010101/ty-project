@@ -1,10 +1,18 @@
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+
+  const handleHomeClick = (e) => {
+    if (location.pathname === '/') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
     <motion.header 
@@ -16,7 +24,7 @@ const Header = () => {
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-white">SkillMarketplace</h1>
         <nav className="hidden md:flex space-x-8 items-center">
-          <Link to="/" className="text-gray-300 hover:text-white">Home</Link>
+          <Link to="/" onClick={handleHomeClick} className="text-gray-300 hover:text-white">Home</Link>
           <a href="#features" className="text-gray-300 hover:text-white">Features</a>
           <a href="#how-it-works" className="text-gray-300 hover:text-white">How It Works</a>
           <a href="#testimonials" className="text-gray-300 hover:text-white">Testimonials</a>
@@ -32,7 +40,7 @@ const Header = () => {
       {isOpen && (
         <div className="md:hidden bg-white/10 backdrop-blur-lg">
           <nav className="px-6 pt-2 pb-4 space-y-2">
-            <Link to="/" className="block text-gray-300 hover:text-white">Home</Link>
+            <Link to="/" onClick={handleHomeClick} className="block text-gray-300 hover:text-white">Home</Link>
             <a href="#features" className="block text-gray-300 hover:text-white">Features</a>
             <a href="#how-it-works" className="block text-gray-300 hover:text-white">How It Works</a>
             <a href="#testimonials" className="block text-gray-300 hover:text-white">Testimonials</a>
