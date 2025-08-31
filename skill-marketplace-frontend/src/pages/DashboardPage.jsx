@@ -5,6 +5,7 @@ import { Star, MapPin, Clock, Filter } from 'lucide-react';
 import MyGigs from '../components/MyGigs';
 import Portfolio from '../components/Portfolio';
 import Messages from '../components/Messages';
+import Orders from '../components/Orders';
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState('Browse Gigs');
@@ -22,6 +23,8 @@ const DashboardPage = () => {
       setActiveTab('Portfolio');
     } else if (tab === 'messages') {
       setActiveTab('Messages');
+    } else if (tab === 'orders') {
+      setActiveTab('Orders');
     }
   }, [location.search]);
   
@@ -243,6 +246,8 @@ const DashboardPage = () => {
               <Portfolio />
             ) : activeTab === 'Messages' ? (
               <Messages />
+            ) : activeTab === 'Orders' ? (
+              <Orders />
             ) : (
               <>
                 {/* Search and Filter */}
