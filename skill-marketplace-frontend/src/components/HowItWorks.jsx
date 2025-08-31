@@ -9,7 +9,7 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="py-20">
+    <section id="how-it-works" className="py-20">
       <div className="container mx-auto px-6">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}

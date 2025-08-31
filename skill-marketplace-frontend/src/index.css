@@ -1,6 +1,11 @@
 
 @import "tailwindcss";
 
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
 @layer base {
   body {
     @apply bg-gray-900 text-gray-100;
