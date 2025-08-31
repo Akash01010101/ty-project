@@ -4,16 +4,16 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     password: '',
     college: '',
-    abcId: '',
     classYear: '',
     course: '',
-    subjects: '',
+    skills: '',
   });
 
-  const { email, password, college, abcId, classYear, course, subjects } = formData;
+  const { name, email, password, college, classYear, course, skills } = formData;
   const navigate = useNavigate();
 
   const onChange = (e) => {
@@ -29,13 +29,13 @@ const SignUpPage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          name,
           email,
           password,
           college,
-          abcId,
           classYear,
           course,
-          subjects: subjects.split(',').map(s => s.trim()), // Split subjects by comma
+          skills: skills.split(',').map(s => s.trim()), // Split skills by comma
         }),
       });
       const data = await response.json();
@@ -65,6 +65,20 @@ const SignUpPage = () => {
           </span>
         </h2>
         <form onSubmit={onSubmit} className="space-y-6">
+          <div>
+            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="name">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={name}
+              onChange={onChange}
+              required
+              className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-800/50 border-gray-700 text-white"
+            />
+          </div>
           <div>
             <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="email">
               Email
@@ -108,20 +122,6 @@ const SignUpPage = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="abcId">
-              ABC ID
-            </label>
-            <input
-              type="text"
-              id="abcId"
-              name="abcId"
-              value={abcId}
-              onChange={onChange}
-              required
-              className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-800/50 border-gray-700 text-white"
-            />
-          </div>
-          <div>
             <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="classYear">
               Class Year
             </label>
@@ -155,14 +155,14 @@ const SignUpPage = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="subjects">
-              Subjects (comma-separated)
+            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="skills">
+              Skills (comma-separated)
             </label>
             <input
               type="text"
-              id="subjects"
-              name="subjects"
-              value={subjects}
+              id="skills"
+              name="skills"
+              value={skills}
               onChange={onChange}
               required
               className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-800/50 border-gray-700 text-white"
@@ -186,3 +186,4 @@ const SignUpPage = () => {
 };
 
 export default SignUpPage;
+
