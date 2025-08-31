@@ -1,9 +1,9 @@
 import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, DollarSign, User, CheckCircle, Clock, AlertCircle } from 'lucide-react';
+import { Calendar, DollarSign, User, CheckCircle, Clock, AlertCircle, X } from 'lucide-react';
 
 // Order Card Component
-const OrderCard = ({ order, onApproveOrder }) => {
+const OrderCard = ({ order, onApproveOrder, onRejectOrder }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case 'completed':
@@ -79,7 +79,7 @@ const OrderCard = ({ order, onApproveOrder }) => {
           </div>
         </div>
 
-        {/* Action Button */}
+        {/* Action Buttons */}
         {order.status === 'pending' && (
           <div className="pt-4 border-t border-gray-700/50">
             {order.isApproved ? (
@@ -88,12 +88,21 @@ const OrderCard = ({ order, onApproveOrder }) => {
                 <span className="text-green-400 font-medium">Order Approved</span>
               </div>
             ) : (
-              <button
-                onClick={() => onApproveOrder(order.id)}
-                className="w-full py-2 px-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-sm"
-              >
-                Approve Order
-              </button>
+              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+                <button
+                  onClick={() => onApproveOrder(order.id)}
+                  className="flex-1 py-2 px-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-sm"
+                >
+                  Approve Order
+                </button>
+                <button
+                  onClick={() => onRejectOrder(order.id)}
+                  className="flex-1 py-2 px-4 bg-red-500/20 text-red-400 border border-red-500/50 font-medium rounded-lg hover:bg-red-500/30 hover:border-red-400 transition-all duration-200 text-sm flex items-center justify-center"
+                >
+                  <X className="w-4 h-4 mr-1" />
+                  Reject Order
+                </button>
+              </div>
             )}
           </div>
         )}
@@ -161,6 +170,10 @@ const Orders = () => {
     );
   }, []);
 
+  const handleRejectOrder = useCallback((orderId) => {
+    setOrders(prevOrders => prevOrders.filter(order => order.id !== orderId));
+  }, []);
+
   const getOrderStats = () => {
     const completed = orders.filter(order => order.status === 'completed').length;
     const inProgress = orders.filter(order => order.status === 'in-progress').length;
@@ -222,6 +235,7 @@ const Orders = () => {
                   key={order.id}
                   order={order}
                   onApproveOrder={handleApproveOrder}
+                  onRejectOrder={handleRejectOrder}
                 />
               ))}
             </div>
