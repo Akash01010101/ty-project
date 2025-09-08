@@ -7,6 +7,7 @@ import Portfolio from '../components/Portfolio';
 import Messages from '../components/Messages';
 import Orders from '../components/Orders';
 import ExpenseIncome from '../components/ExpenseIncome';
+import UserSearch from '../components/UserSearch';
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState('Browse Gigs');
@@ -28,6 +29,8 @@ const DashboardPage = () => {
       setActiveTab('Orders');
     } else if (tab === 'expense-income') {
       setActiveTab('Expense and Income');
+    } else if (tab === 'user-search') {
+      setActiveTab('Search Users');
     }
   }, [location.search]);
   
@@ -95,7 +98,7 @@ const DashboardPage = () => {
     }
   ];
 
-  const tabs = ['Browse Gigs', 'AI Picks', 'My Gigs', 'Portfolio', 'Messages', 'Orders', 'Expense and Income'];
+  const tabs = ['Browse Gigs', 'AI Picks', 'My Gigs', 'Portfolio', 'Messages', 'Orders', 'Expense and Income', 'Search Users'];
   const categories = ['All Categories', 'React Development', 'Math Tutoring', 'Video Editing', 'Graphic Design', 'Data Science', 'Writing'];
 
   const profileStats = {
@@ -223,12 +226,12 @@ const DashboardPage = () => {
           {/* Main Content */}
           <div className="flex-1 mt-6 lg:mt-0">
             {/* Navigation Tabs */}
-            <div className="flex space-x-2 sm:space-x-6 mb-4 sm:mb-6 border-b border-gray-700 overflow-x-auto">
+            <div className="flex space-x-1 sm:space-x-3 md:space-x-6 mb-4 sm:mb-6 border-b border-gray-700 overflow-x-auto scrollbar-hide">
               {tabs.map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`pb-2 px-1 text-sm font-medium relative whitespace-nowrap ${
+                  className={`pb-2 px-2 sm:px-1 text-xs sm:text-sm font-medium relative whitespace-nowrap flex-shrink-0 ${
                     activeTab === tab
                       ? 'text-pink-400 border-b-2 border-pink-400'
                       : 'text-gray-400 hover:text-gray-200'
@@ -236,7 +239,7 @@ const DashboardPage = () => {
                 >
                   {tab}
                   {(tab === 'Messages' || tab === 'Orders') && (
-                    <span className="absolute -top-1 -right-2 w-2 h-2 bg-pink-500 rounded-full"></span>
+                    <span className="absolute -top-1 -right-1 sm:-right-2 w-2 h-2 bg-pink-500 rounded-full"></span>
                   )}
                 </button>
               ))}
@@ -253,6 +256,8 @@ const DashboardPage = () => {
               <Orders />
             ) : activeTab === 'Expense and Income' ? (
               <ExpenseIncome />
+            ) : activeTab === 'Search Users' ? (
+              <UserSearch />
             ) : (
               <>
                 {/* Search and Filter */}

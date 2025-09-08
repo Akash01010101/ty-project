@@ -62,3 +62,13 @@ html {
     transform: translateX(-200px) translateY(100px) rotate(270deg);
   }
 }
+
+/* Hide scrollbars for better mobile UX */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
