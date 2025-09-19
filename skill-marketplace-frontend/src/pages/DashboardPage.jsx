@@ -123,17 +123,32 @@ const DashboardPage = () => {
         <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
           <div className="flex justify-between items-center">
             {/* Logo and Brand - Left Side */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center">
               <h1 className="text-lg sm:text-xl lg:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>SkillMarketPlace</h1>
-              <span className="px-2 py-1 text-xs rounded-full font-medium flex-shrink-0" style={{ backgroundColor: 'var(--button-secondary)', color: 'var(--text-accent)' }}>AI-Powered</span>
             </div>
             
             {/* User Info and Controls - Right Side */}
             <div className="flex flex-col sm:flex-row items-end sm:items-center space-y-1 sm:space-y-0 sm:space-x-4">
               {/* User Info */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 lg:space-x-3 text-right sm:text-left">
-                <span className="text-xs sm:text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Userwhenlogin</span>
-                <span className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>State University</span>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 lg:space-x-4 text-right sm:text-left">
+                {/* User Profile Section */}
+                <div className="flex flex-col items-end sm:items-center sm:flex-row sm:space-x-2">
+                  {/* Profile Picture */}
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 mb-1 sm:mb-0" style={{ borderColor: 'var(--accent-primary)' }}>
+                    <img 
+                      src="https://i.pravatar.cc/100?img=3" 
+                      alt="User Profile" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  
+                  {/* User Text Info */}
+                  <div className="flex flex-col sm:items-start">
+                    <span className="text-xs sm:text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Userwhenlogin</span>
+                    {/* Hide university on mobile, show on sm+ screens */}
+                    <span className="hidden sm:block text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>State University</span>
+                  </div>
+                </div>
               </div>
               
               {/* Controls */}
