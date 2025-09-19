@@ -9,9 +9,10 @@ const Hero = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="text-5xl md:text-7xl font-extrabold text-white leading-tight"
+          className="text-5xl md:text-7xl font-extrabold leading-tight"
+          style={{ color: 'var(--text-primary)' }}
         >
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+          <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(to right, var(--text-accent), var(--button-primary))' }}>
             Monetize Your Skills.
           </span>
           <br />
@@ -21,7 +22,8 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
-          className="mt-6 text-lg text-gray-300 max-w-2xl mx-auto"
+          className="mt-6 text-lg max-w-2xl mx-auto"
+          style={{ color: 'var(--text-secondary)' }}
         >
           SkillMarketplace is the ultimate peer-to-peer platform for college students to connect, collaborate, and create. Turn your talents into opportunities.
         </motion.p>
@@ -32,12 +34,12 @@ const Hero = () => {
           className="mt-10 flex justify-center gap-4"
         >
           <Link to="/dashboard">
-            <button className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-full hover:scale-105 transform transition-transform duration-300">
+            <button className="px-8 py-3 font-bold rounded-full hover:scale-105 transform transition-all duration-300" style={{ backgroundColor: 'var(--button-primary)', color: 'var(--bg-primary)' }}>
               Get Started
             </button>
           </Link>
           <a href="#features">
-            <button className="px-8 py-3 bg-white/10 backdrop-blur-md text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transform transition-colors duration-300">
+            <button className="px-8 py-3 backdrop-blur-md font-bold rounded-full border transform transition-all duration-300 hover:scale-105" style={{ backgroundColor: 'var(--button-secondary)', color: 'var(--text-primary)', borderColor: 'var(--border-color)' }}>
               Learn More
             </button>
           </a>

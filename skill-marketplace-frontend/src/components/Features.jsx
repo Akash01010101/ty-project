@@ -3,22 +3,22 @@ import { Briefcase, Users, MessageSquare, Zap } from 'lucide-react';
 
 const features = [
   {
-    icon: <Briefcase size={36} className="text-purple-400" />,
+    icon: <Briefcase size={36} style={{ color: 'var(--text-accent)' }} />,
     title: 'Diverse Skill Marketplace',
     description: 'From coding to creative arts, find the talent you need or the gigs you want.',
   },
   {
-    icon: <Users size={36} className="text-pink-400" />,
+    icon: <Users size={36} style={{ color: 'var(--text-accent)' }} />,
     title: 'Build Your Digital Portfolio',
     description: 'Showcase your skills and build credibility with every completed project.',
   },
   {
-    icon: <MessageSquare size={36} className="text-cyan-400" />,
+    icon: <MessageSquare size={36} style={{ color: 'var(--text-accent)' }} />,
     title: 'Seamless Communication',
     description: 'Integrated chat and collaboration tools to keep your projects on track.',
   },
     {
-    icon: <Zap size={36} className="text-yellow-400" />,
+    icon: <Zap size={36} style={{ color: 'var(--text-accent)' }} />,
     title: 'Instant & Secure Transactions',
     description: 'Mock payment system for safe and immediate compensation for your work.',
   },
@@ -33,7 +33,8 @@ const Features = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-4xl font-bold text-center text-white"
+          className="text-4xl font-bold text-center"
+          style={{ color: 'var(--text-primary)' }}
         >
           Why Choose SkillMarketplace?
         </motion.h2>
@@ -45,11 +46,15 @@ const Features = () => {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.5, delay: index * 0.15 }}
               viewport={{ once: true }}
-              className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10 shadow-xl transform hover:-translate-y-2 transition-transform duration-300"
+              className="backdrop-blur-lg rounded-2xl p-8 border shadow-xl transform hover:-translate-y-2 transition-all duration-300"
+              style={{
+                backgroundColor: 'var(--bg-accent)',
+                borderColor: 'var(--border-color)'
+              }}
             >
               <div className="mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-bold text-white">{feature.title}</h3>
-              <p className="mt-2 text-gray-400">{feature.description}</p>
+              <h3 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>{feature.title}</h3>
+              <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>{feature.description}</p>
             </motion.div>
           ))}
         </div>
