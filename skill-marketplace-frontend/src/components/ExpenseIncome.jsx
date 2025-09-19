@@ -10,23 +10,26 @@ const TransactionItem = ({ transaction }) => {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-gray-700/30 last:border-b-0 hover:bg-white/5 transition-colors duration-200"
+      className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b last:border-b-0 hover:scale-[1.01] transition-all duration-200"
+      style={{ borderColor: 'var(--border-color)' }}
+      onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--button-secondary)'}
+      onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
     >
       <div className="flex-1 space-y-1 mb-2 sm:mb-0">
         <div className="flex items-start space-x-2">
-          <div className={`mt-1 ${isIncome ? 'text-green-400' : 'text-red-400'}`}>
+          <div className={`mt-1 ${isIncome ? 'text-green-500' : 'text-red-500'}`}>
             {isIncome ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
           </div>
           <div className="flex-1">
-            <p className="text-white font-medium text-sm sm:text-base">
+            <p className="font-medium text-sm sm:text-base" style={{ color: 'var(--text-primary)' }}>
               {transaction.description}
             </p>
             <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 mt-1">
-              <div className="flex items-center text-gray-400 text-xs sm:text-sm">
+              <div className="flex items-center text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>
                 <Calendar className="w-3 h-3 mr-1" />
                 {transaction.date}
               </div>
-              <span className="text-gray-500 text-xs">
+              <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
                 {transaction.status}
               </span>
             </div>
@@ -36,7 +39,7 @@ const TransactionItem = ({ transaction }) => {
       
       <div className="flex items-center justify-end space-x-2">
         <span className={`font-semibold text-sm sm:text-base ${
-          isIncome ? 'text-green-400' : 'text-red-400'
+          isIncome ? 'text-green-500' : 'text-red-500'
         }`}>
           {isIncome ? '+' : '-'}${transaction.amount}
         </span>
@@ -135,47 +138,47 @@ const ExpenseIncome = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-1">Expense and Income</h2>
-          <p className="text-gray-400">Track your earnings and spending</p>
+          <h2 className="text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Expense and Income</h2>
+          <p style={{ color: 'var(--text-secondary)' }}>Track your earnings and spending</p>
         </div>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white/5 backdrop-blur-lg rounded-lg p-4 sm:p-6 border border-white/10">
+        <div className="backdrop-blur-lg rounded-lg p-4 sm:p-6 border" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm">Total Income</p>
-              <p className="text-2xl font-bold text-green-400">${totals.income}</p>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Total Income</p>
+              <p className="text-2xl font-bold text-green-500">${totals.income}</p>
             </div>
-            <div className="p-3 bg-green-500/20 rounded-full">
-              <TrendingUp className="w-6 h-6 text-green-400" />
+            <div className="p-3 rounded-full" style={{ backgroundColor: 'rgba(34, 197, 94, 0.2)' }}>
+              <TrendingUp className="w-6 h-6 text-green-500" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white/5 backdrop-blur-lg rounded-lg p-4 sm:p-6 border border-white/10">
+        <div className="backdrop-blur-lg rounded-lg p-4 sm:p-6 border" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm">Total Expenses</p>
-              <p className="text-2xl font-bold text-red-400">${totals.expenses}</p>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Total Expenses</p>
+              <p className="text-2xl font-bold text-red-500">${totals.expenses}</p>
             </div>
-            <div className="p-3 bg-red-500/20 rounded-full">
-              <TrendingDown className="w-6 h-6 text-red-400" />
+            <div className="p-3 rounded-full" style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)' }}>
+              <TrendingDown className="w-6 h-6 text-red-500" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white/5 backdrop-blur-lg rounded-lg p-4 sm:p-6 border border-white/10">
+        <div className="backdrop-blur-lg rounded-lg p-4 sm:p-6 border" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm">Net Balance</p>
-              <p className={`text-2xl font-bold ${totals.balance >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Net Balance</p>
+              <p className={`text-2xl font-bold ${totals.balance >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                 ${Math.abs(totals.balance)}
               </p>
             </div>
-            <div className="p-3 bg-purple-500/20 rounded-full">
-              <DollarSign className="w-6 h-6 text-purple-400" />
+            <div className="p-3 rounded-full" style={{ backgroundColor: 'var(--button-secondary)' }}>
+              <DollarSign className="w-6 h-6" style={{ color: 'var(--text-accent)' }} />
             </div>
           </div>
         </div>
@@ -184,22 +187,32 @@ const ExpenseIncome = () => {
       {/* Filters and Search */}
       <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
           <input
             type="text"
             placeholder="Search transactions..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-white placeholder-gray-400"
+            className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-300"
+            style={{
+              backgroundColor: 'var(--bg-secondary)',
+              borderColor: 'var(--border-color)',
+              color: 'var(--text-primary)'
+            }}
           />
         </div>
         
         <div className="flex items-center space-x-2">
-          <Filter className="w-4 h-4 text-gray-400" />
+          <Filter className="w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="px-3 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-white min-w-[120px]"
+            className="px-3 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-300 min-w-[120px]"
+            style={{
+              backgroundColor: 'var(--bg-secondary)',
+              borderColor: 'var(--border-color)',
+              color: 'var(--text-primary)'
+            }}
           >
             <option value="all">All</option>
             <option value="income">Income</option>
@@ -209,18 +222,18 @@ const ExpenseIncome = () => {
       </div>
 
       {/* Transactions List */}
-      <div className="bg-white/5 backdrop-blur-lg rounded-lg border border-white/10 min-h-[400px]">
-        <div className="p-4 sm:p-6 border-b border-gray-700/30">
-          <h3 className="text-lg font-semibold text-white">Transactions</h3>
+      <div className="backdrop-blur-lg rounded-lg border min-h-[400px]" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
+        <div className="p-4 sm:p-6 border-b" style={{ borderColor: 'var(--border-color)' }}>
+          <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Transactions</h3>
         </div>
         
         {filteredTransactions.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 px-8">
-            <div className="w-24 h-24 bg-gray-700/30 rounded-full flex items-center justify-center mb-6">
-              <DollarSign className="w-12 h-12 text-gray-500" />
+            <div className="w-24 h-24 rounded-full flex items-center justify-center mb-6" style={{ backgroundColor: 'var(--button-secondary)' }}>
+              <DollarSign className="w-12 h-12" style={{ color: 'var(--text-secondary)' }} />
             </div>
-            <h3 className="text-xl font-semibold text-white mb-2">No transactions found</h3>
-            <p className="text-gray-400 text-center">
+            <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>No transactions found</h3>
+            <p className="text-center" style={{ color: 'var(--text-secondary)' }}>
               {searchTerm || filterType !== 'all' 
                 ? 'Try adjusting your search or filter criteria'
                 : 'Your transactions will appear here once you start earning or spending'
@@ -228,7 +241,7 @@ const ExpenseIncome = () => {
             </p>
           </div>
         ) : (
-          <div className="divide-y divide-gray-700/30">
+          <div className="divide-y" style={{ borderColor: 'var(--border-color)' }}>
             {filteredTransactions.map((transaction) => (
               <TransactionItem
                 key={transaction.id}

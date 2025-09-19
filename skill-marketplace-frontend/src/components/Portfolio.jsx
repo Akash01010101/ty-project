@@ -8,9 +8,13 @@ const PortfolioCard = ({ item, onDelete }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    className="bg-white/5 backdrop-blur-lg rounded-lg border border-white/10 hover:border-pink-400/30 transition-all duration-200 overflow-hidden"
+    className="backdrop-blur-lg rounded-lg border transition-all duration-200 overflow-hidden"
+    style={{ 
+      backgroundColor: 'var(--bg-accent)', 
+      borderColor: 'var(--border-color)'
+    }}
   >
-    <div className="aspect-video bg-gray-800/50 relative overflow-hidden">
+    <div className="aspect-video relative overflow-hidden" style={{ backgroundColor: 'var(--button-secondary)' }}>
       <img
         src={item.imageUrl}
         alt={item.title}
@@ -25,14 +29,22 @@ const PortfolioCard = ({ item, onDelete }) => (
             href={item.projectUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 bg-gray-900/70 text-gray-300 hover:text-white rounded-lg transition-colors duration-200"
+            className="p-2 rounded-lg transition-colors duration-200"
+            style={{ 
+              backgroundColor: 'var(--button-secondary)', 
+              color: 'var(--text-secondary)'
+            }}
           >
             <ExternalLink className="w-4 h-4" />
           </a>
         )}
         <button
           onClick={() => onDelete(item.id)}
-          className="p-2 bg-gray-900/70 text-gray-300 hover:text-red-400 rounded-lg transition-colors duration-200"
+          className="p-2 hover:text-red-400 rounded-lg transition-colors duration-200"
+          style={{ 
+            backgroundColor: 'var(--button-secondary)', 
+            color: 'var(--text-secondary)'
+          }}
         >
           <Trash2 className="w-4 h-4" />
         </button>
@@ -41,25 +53,29 @@ const PortfolioCard = ({ item, onDelete }) => (
     
     <div className="p-6">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3">
-        <h3 className="text-lg font-semibold text-white mb-2 sm:mb-0">{item.title}</h3>
-        <div className="flex items-center text-xs text-gray-400">
+        <h3 className="text-lg font-semibold mb-2 sm:mb-0" style={{ color: 'var(--text-primary)' }}>{item.title}</h3>
+        <div className="flex items-center text-xs" style={{ color: 'var(--text-secondary)' }}>
           <Calendar className="w-3 h-3 mr-1" />
           {item.createdAt}
         </div>
       </div>
       
-      <p className="text-gray-300 text-sm mb-4 line-clamp-2">{item.description}</p>
+      <p className="text-sm mb-4 line-clamp-2" style={{ color: 'var(--text-secondary)' }}>{item.description}</p>
       
       <div className="flex items-center mb-4">
-        <Tag className="w-4 h-4 text-pink-400 mr-2" />
-        <span className="text-pink-300 text-sm">{item.category}</span>
+        <Tag className="w-4 h-4 mr-2" style={{ color: 'var(--accent-primary)' }} />
+        <span className="text-sm" style={{ color: 'var(--accent-text)' }}>{item.category}</span>
       </div>
       
       <div className="flex flex-wrap gap-2">
         {item.technologies.map((tech, index) => (
           <span
             key={index}
-            className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full"
+            className="px-2 py-1 text-xs rounded-full"
+            style={{ 
+              backgroundColor: 'var(--accent-secondary)', 
+              color: 'var(--accent-text)' 
+            }}
           >
             {tech}
           </span>
@@ -135,16 +151,20 @@ const Portfolio = () => {
 
   const EmptyState = () => (
     <div className="flex flex-col items-center justify-center py-16 px-8">
-      <div className="w-24 h-24 bg-gray-700/30 rounded-full flex items-center justify-center mb-6">
-        <Plus className="w-12 h-12 text-gray-500" />
+      <div className="w-24 h-24 rounded-full flex items-center justify-center mb-6" style={{ backgroundColor: 'var(--button-secondary)' }}>
+        <Plus className="w-12 h-12" style={{ color: 'var(--text-secondary)' }} />
       </div>
-      <h3 className="text-xl font-semibold text-white mb-2">No portfolio items yet</h3>
-      <p className="text-gray-400 text-center mb-8">Showcase your best work and attract more clients!</p>
+      <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>No portfolio items yet</h3>
+      <p className="text-center mb-8" style={{ color: 'var(--text-secondary)' }}>Showcase your best work and attract more clients!</p>
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setShowCreateForm(true)}
-        className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200"
+        className="px-6 py-3 font-medium rounded-lg transition-all duration-200"
+        style={{ 
+          background: 'var(--button-primary)',
+          color: 'var(--button-text)'
+        }}
       >
         Add Your First Project
       </motion.button>
@@ -160,14 +180,18 @@ const Portfolio = () => {
       {/* Header with actions */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-1">Portfolio</h2>
-          <p className="text-gray-400">Showcase your best work and projects</p>
+          <h2 className="text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Portfolio</h2>
+          <p style={{ color: 'var(--text-secondary)' }}>Showcase your best work and projects</p>
         </div>
         
         {portfolioItems.length > 0 && (
           <button
             onClick={() => setShowCreateForm(!showCreateForm)}
-            className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-sm font-medium"
+            className="px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium"
+            style={{ 
+              background: 'var(--button-primary)',
+              color: 'var(--button-text)'
+            }}
           >
             <span className="flex items-center justify-center">
               <Plus className="w-4 h-4 mr-2" />
@@ -180,27 +204,27 @@ const Portfolio = () => {
       {/* Stats Overview */}
       {portfolioItems.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="bg-white/5 backdrop-blur-lg rounded-lg p-4 border border-white/10">
-            <div className="text-2xl font-bold text-white">{portfolioItems.length}</div>
-            <div className="text-gray-400 text-sm">Projects</div>
+          <div className="backdrop-blur-lg rounded-lg p-4 border" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
+            <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{portfolioItems.length}</div>
+            <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Projects</div>
           </div>
-          <div className="bg-white/5 backdrop-blur-lg rounded-lg p-4 border border-white/10">
-            <div className="text-2xl font-bold text-pink-400">
+          <div className="backdrop-blur-lg rounded-lg p-4 border" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
+            <div className="text-2xl font-bold" style={{ color: 'var(--accent-primary)' }}>
               {[...new Set(portfolioItems.map(item => item.category))].length}
             </div>
-            <div className="text-gray-400 text-sm">Categories</div>
+            <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Categories</div>
           </div>
-          <div className="bg-white/5 backdrop-blur-lg rounded-lg p-4 border border-white/10">
-            <div className="text-2xl font-bold text-purple-400">
+          <div className="backdrop-blur-lg rounded-lg p-4 border" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
+            <div className="text-2xl font-bold" style={{ color: 'var(--accent-primary)' }}>
               {[...new Set(portfolioItems.flatMap(item => item.technologies))].length}
             </div>
-            <div className="text-gray-400 text-sm">Technologies</div>
+            <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Technologies</div>
           </div>
-          <div className="bg-white/5 backdrop-blur-lg rounded-lg p-4 border border-white/10">
+          <div className="backdrop-blur-lg rounded-lg p-4 border" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
             <div className="text-2xl font-bold text-green-400">
               {portfolioItems.filter(item => item.projectUrl).length}
             </div>
-            <div className="text-gray-400 text-sm">Live Projects</div>
+            <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Live Projects</div>
           </div>
         </div>
       )}
@@ -210,9 +234,10 @@ const Portfolio = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white/5 backdrop-blur-lg rounded-lg p-6 border border-white/10 mb-6"
+          className="backdrop-blur-lg rounded-lg p-6 border mb-6"
+          style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}
         >
-          <h3 className="text-xl font-semibold text-white mb-4">Add New Project</h3>
+          <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Add New Project</h3>
           <form onSubmit={handleCreateItem} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
@@ -331,7 +356,7 @@ const Portfolio = () => {
       )}
 
       {/* Portfolio Content */}
-      <div className="bg-white/5 backdrop-blur-lg rounded-lg border border-white/10 min-h-[400px]">
+      <div className="backdrop-blur-lg rounded-lg border min-h-[400px]" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
         {portfolioItems.length === 0 ? (
           <EmptyState />
         ) : (
