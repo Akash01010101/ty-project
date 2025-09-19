@@ -7,7 +7,7 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-full transition-all duration-300 ease-in-out hover:scale-110 focus:outline-none"
+      className="p-2 sm:p-3 rounded-full transition-all duration-300 ease-in-out hover:scale-110 focus:outline-none min-h-[44px] min-w-[44px] flex items-center justify-center touch-manipulation"
       style={{
         backgroundColor: 'var(--button-secondary)',
         border: '1px solid var(--border-color)',

@@ -120,19 +120,38 @@ const DashboardPage = () => {
       <div className="relative z-10">
       {/* Header */}
       <div className="backdrop-blur-lg border-b" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
-        <div className="container mx-auto px-4 sm:px-6 py-4">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0">
+        <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+          <div className="flex justify-between items-center">
+            {/* Logo and Brand - Left Side */}
             <div className="flex items-center space-x-2">
-              <h1 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>SkillMarketPlace</h1>
-              <span className="px-2 py-1 text-xs rounded-full font-medium" style={{ backgroundColor: 'var(--button-secondary)', color: 'var(--text-accent)' }}>AI-Powered</span>
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>SkillMarketPlace</h1>
+              <span className="px-2 py-1 text-xs rounded-full font-medium flex-shrink-0" style={{ backgroundColor: 'var(--button-secondary)', color: 'var(--text-accent)' }}>AI-Powered</span>
             </div>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-1 sm:space-y-0 sm:space-x-4">
-              <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Userwhenlogin</span>
-              <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>State University</span>
-              <ThemeToggle />
-              <button className="px-3 py-1 sm:px-4 sm:py-2 border rounded hover:scale-105 transition-all duration-300 text-sm" style={{ color: 'var(--text-accent)', borderColor: 'var(--text-accent)', backgroundColor: 'transparent' }} onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--button-secondary)'} onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>
-                Logout
-              </button>
+            
+            {/* User Info and Controls - Right Side */}
+            <div className="flex flex-col sm:flex-row items-end sm:items-center space-y-1 sm:space-y-0 sm:space-x-4">
+              {/* User Info */}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 lg:space-x-3 text-right sm:text-left">
+                <span className="text-xs sm:text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Userwhenlogin</span>
+                <span className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>State University</span>
+              </div>
+              
+              {/* Controls */}
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <ThemeToggle />
+                <button 
+                  className="px-3 py-2 sm:px-4 border rounded-lg hover:scale-105 transition-all duration-300 text-xs sm:text-sm font-medium min-h-[44px] flex items-center justify-center touch-manipulation" 
+                  style={{ 
+                    color: 'var(--text-accent)', 
+                    borderColor: 'var(--text-accent)', 
+                    backgroundColor: 'transparent' 
+                  }} 
+                  onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--button-secondary)'} 
+                  onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                >
+                  Logout
+                </button>
+              </div>
             </div>
           </div>
         </div>
