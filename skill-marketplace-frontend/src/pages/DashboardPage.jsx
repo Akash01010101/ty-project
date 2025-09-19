@@ -138,63 +138,63 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+      <div className="container mx-auto px-2 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-6">
+        <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-6">
           {/* Left Sidebar */}
-          <div className="w-full lg:w-80 space-y-4 lg:space-y-6">
+          <div className="w-full lg:w-80 space-y-3 sm:space-y-4 lg:space-y-6">
             {/* Profile Card */}
-            <div className="bg-white/5 backdrop-blur-lg rounded-lg p-6 shadow-sm border border-white/10">
-              <div className="text-center mb-4">
-                <h3 className="text-lg font-semibold text-white">Your Profile</h3>
+            <div className="backdrop-blur-lg rounded-lg p-4 sm:p-6 shadow-sm border" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
+              <div className="text-center mb-3 sm:mb-4">
+                <h3 className="text-base sm:text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Your Profile</h3>
               </div>
-              <div className="flex items-center mb-4">
+              <div className="flex items-center mb-3 sm:mb-4">
                 <Star className="w-4 h-4 text-yellow-400 mr-1" />
-                <span className="font-semibold text-white">{profileStats.rating}/5.0</span>
-                <span className="text-gray-400 ml-1">({profileStats.totalGigs} gigs)</span>
+                <span className="font-semibold text-sm sm:text-base" style={{ color: 'var(--text-primary)' }}>{profileStats.rating}/5.0</span>
+                <span className="ml-1 text-sm" style={{ color: 'var(--text-secondary)' }}>({profileStats.totalGigs} gigs)</span>
               </div>
-              <div className="mb-4">
-                <h4 className="font-semibold text-white mb-2">Your Skills</h4>
-                <div className="flex flex-wrap gap-2">
+              <div className="mb-3 sm:mb-4">
+                <h4 className="font-semibold mb-2 text-sm sm:text-base" style={{ color: 'var(--text-primary)' }}>Your Skills</h4>
+                <div className="flex flex-wrap gap-1 sm:gap-2">
                   {profileStats.skills.map((skill, index) => (
-                    <span key={index} className="px-3 py-1 bg-pink-500/20 text-pink-300 text-sm rounded-full">
+                    <span key={index} className="px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full" style={{ backgroundColor: 'var(--accent-secondary)', color: 'var(--accent-text)' }}>
                       {skill}
                     </span>
                   ))}
                 </div>
               </div>
-              <button className="w-full py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-medium hover:from-purple-600 hover:to-pink-600">
+              <button className="w-full py-2 sm:py-3 rounded-lg font-medium text-sm sm:text-base transition-all duration-200 min-h-[44px]" style={{ background: 'var(--button-primary)', color: 'var(--button-text)' }}>
                 Edit Profile
               </button>
             </div>
 
             {/* AI Insights */}
-            <div className="bg-white/5 backdrop-blur-lg rounded-lg p-6 shadow-sm border border-white/10">
-              <h3 className="text-lg font-semibold text-white mb-4">AI Insights</h3>
-              <div className="space-y-4">
+            <div className="backdrop-blur-lg rounded-lg p-4 sm:p-6 shadow-sm border" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
+              <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4" style={{ color: 'var(--text-primary)' }}>AI Insights</h3>
+              <div className="space-y-3 sm:space-y-4">
                 <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-300">Profile Strength</span>
-                    <span className="text-white">{profileStats.profileStrength}%</span>
+                  <div className="flex justify-between text-xs sm:text-sm mb-1">
+                    <span style={{ color: 'var(--text-secondary)' }}>Profile Strength</span>
+                    <span style={{ color: 'var(--text-primary)' }}>{profileStats.profileStrength}%</span>
                   </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2">
-                    <div className="bg-green-500 h-2 rounded-full" style={{width: `${profileStats.profileStrength}%`}}></div>
+                  <div className="w-full rounded-full h-2" style={{ backgroundColor: 'var(--button-secondary)' }}>
+                    <div className="bg-green-500 h-2 rounded-full transition-all duration-500" style={{width: `${profileStats.profileStrength}%`}}></div>
                   </div>
                 </div>
                 <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-300">Market Demand</span>
-                    <span className="text-white">{profileStats.marketDemand}%</span>
+                  <div className="flex justify-between text-xs sm:text-sm mb-1">
+                    <span style={{ color: 'var(--text-secondary)' }}>Market Demand</span>
+                    <span style={{ color: 'var(--text-primary)' }}>{profileStats.marketDemand}%</span>
                   </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2">
-                    <div className="bg-pink-500 h-2 rounded-full" style={{width: `${profileStats.marketDemand}%`}}></div>
+                  <div className="w-full rounded-full h-2" style={{ backgroundColor: 'var(--button-secondary)' }}>
+                    <div className="h-2 rounded-full transition-all duration-500" style={{width: `${profileStats.marketDemand}%`, backgroundColor: 'var(--accent-primary)'}}></div>
                   </div>
                 </div>
-                <div className="bg-yellow-500/10 p-3 rounded-lg border border-yellow-500/20">
+                <div className="p-3 rounded-lg border" style={{ backgroundColor: 'var(--accent-secondary)', borderColor: 'var(--accent-primary)' }}>
                   <div className="flex items-start">
-                    <span className="text-yellow-400 mr-2">💡</span>
-                    <div>
-                      <p className="font-medium text-sm text-yellow-300">Top Suggestion:</p>
-                      <p className="text-sm text-gray-300">Add 2-3 more portfolio projects to increase credibility</p>
+                    <span className="mr-2 text-lg sm:text-xl" style={{ color: 'var(--accent-primary)' }}>💡</span>
+                    <div className="flex-1">
+                      <p className="font-medium text-xs sm:text-sm" style={{ color: 'var(--accent-text)' }}>Top Suggestion:</p>
+                      <p className="text-xs sm:text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Add 2-3 more portfolio projects to increase credibility</p>
                     </div>
                   </div>
                 </div>
@@ -202,38 +202,38 @@ const DashboardPage = () => {
             </div>
 
             {/* Quick Stats */}
-            <div className="bg-white/5 backdrop-blur-lg rounded-lg p-6 shadow-sm border border-white/10">
-              <h3 className="text-lg font-semibold text-white mb-4">Quick Stats</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Active Orders</span>
-                  <span className="font-semibold text-white">{profileStats.activeOrders}</span>
+            <div className="backdrop-blur-lg rounded-lg p-4 sm:p-6 shadow-sm border" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
+              <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4" style={{ color: 'var(--text-primary)' }}>Quick Stats</h3>
+              <div className="space-y-2 sm:space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>Active Orders</span>
+                  <span className="font-semibold text-sm sm:text-base" style={{ color: 'var(--text-primary)' }}>{profileStats.activeOrders}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Portfolio Items</span>
-                  <span className="font-semibold text-white">{profileStats.portfolioItems}</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>Portfolio Items</span>
+                  <span className="font-semibold text-sm sm:text-base" style={{ color: 'var(--text-primary)' }}>{profileStats.portfolioItems}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300">This Month</span>
-                  <span className="font-semibold text-pink-400">${profileStats.thisMonth}</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>This Month</span>
+                  <span className="font-semibold text-sm sm:text-base" style={{ color: 'var(--accent-primary)' }}>${profileStats.thisMonth}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Response Rate</span>
-                  <span className="font-semibold text-white">{profileStats.responseRate}%</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>Response Rate</span>
+                  <span className="font-semibold text-sm sm:text-base" style={{ color: 'var(--text-primary)' }}>{profileStats.responseRate}%</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 mt-6 lg:mt-0">
+          <div className="flex-1 mt-3 sm:mt-4 lg:mt-0">
             {/* Navigation Tabs */}
-            <div className="flex space-x-1 sm:space-x-3 md:space-x-6 mb-4 sm:mb-6 border-b overflow-x-auto scrollbar-hide" style={{ borderColor: 'var(--border-color)' }}>
+            <div className="flex space-x-1 sm:space-x-2 md:space-x-4 lg:space-x-6 mb-3 sm:mb-4 lg:mb-6 border-b overflow-x-auto scrollbar-hide pb-1" style={{ borderColor: 'var(--border-color)' }}>
               {tabs.map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`pb-2 px-2 sm:px-1 text-xs sm:text-sm font-medium relative whitespace-nowrap flex-shrink-0 transition-colors duration-300`}
+                  className={`pb-2 px-2 sm:px-3 text-xs sm:text-sm font-medium relative whitespace-nowrap flex-shrink-0 transition-all duration-300 min-h-[44px] flex items-center`}
                   style={{
                     color: activeTab === tab ? 'var(--text-accent)' : 'var(--text-secondary)',
                     borderBottom: activeTab === tab ? '2px solid var(--text-accent)' : 'none'
