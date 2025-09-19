@@ -5,11 +5,13 @@ import { ArrowLeft, Send, Search, MoreVertical, Paperclip, Smile } from 'lucide-
 // Message Item Component
 const MessageItem = ({ message, isSelected, onClick }) => (
   <motion.div
-    whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+    whileHover={{ backgroundColor: 'var(--button-secondary)' }}
     onClick={() => onClick(message)}
-    className={`p-4 border-b border-gray-700/50 cursor-pointer transition-all duration-200 ${
-      isSelected ? 'bg-purple-500/20 border-purple-400/50' : 'hover:bg-white/5'
-    }`}
+    className={`p-4 border-b cursor-pointer transition-all duration-200`}
+    style={{
+      borderColor: 'var(--border-color)',
+      backgroundColor: isSelected ? 'var(--button-secondary)' : 'transparent'
+    }}
   >
     <div className="flex items-start space-x-3">
       <div className="relative">
@@ -19,22 +21,22 @@ const MessageItem = ({ message, isSelected, onClick }) => (
           className="w-12 h-12 rounded-full object-cover"
         />
         {message.isOnline && (
-          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-gray-900 rounded-full"></div>
+          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 rounded-full" style={{ borderColor: 'var(--bg-primary)' }}></div>
         )}
       </div>
       
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between mb-1">
-          <h3 className="text-white font-medium truncate">{message.name}</h3>
-          <span className="text-gray-400 text-xs">{message.time}</span>
+          <h3 className="font-medium truncate" style={{ color: 'var(--text-primary)' }}>{message.name}</h3>
+          <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>{message.time}</span>
         </div>
         
-        <p className="text-gray-300 text-sm truncate mb-1">{message.lastMessage}</p>
+        <p className="text-sm truncate mb-1" style={{ color: 'var(--text-secondary)' }}>{message.lastMessage}</p>
         
         <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-500">{message.project}</span>
+          <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>{message.project}</span>
           {message.unreadCount > 0 && (
-            <span className="bg-pink-500 text-white text-xs px-2 py-1 rounded-full min-w-[20px] text-center">
+            <span className="text-xs px-2 py-1 rounded-full min-w-[20px] text-center" style={{ backgroundColor: 'var(--text-accent)', color: 'var(--bg-primary)' }}>
               {message.unreadCount}
             </span>
           )}
@@ -55,16 +57,20 @@ const ChatMessage = ({ message, isOwnMessage }) => (
       <div
         className={`px-4 py-2 rounded-2xl ${
           isOwnMessage
-            ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
-            : 'bg-gray-700/50 text-gray-200'
+            ? 'text-white'
+            : 'backdrop-blur-lg'
         }`}
+        style={{
+          backgroundColor: isOwnMessage ? 'var(--button-primary)' : 'var(--bg-accent)',
+          color: isOwnMessage ? 'var(--bg-primary)' : 'var(--text-primary)'
+        }}
       >
         <p className="text-sm">{message.text}</p>
       </div>
       <div className={`flex items-center mt-1 space-x-2 ${isOwnMessage ? 'justify-end' : 'justify-start'}`}>
-        <span className="text-xs text-gray-500">{message.time}</span>
+        <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>{message.time}</span>
         {isOwnMessage && message.status && (
-          <span className="text-xs text-gray-400">{message.status}</span>
+          <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>{message.status}</span>
         )}
       </div>
     </div>
@@ -256,42 +262,52 @@ const Messages = () => {
     return (
       <div className="space-y-6">
         {/* Chat Header */}
-        <div className="flex items-center justify-between bg-white/5 backdrop-blur-lg rounded-lg p-4 border border-white/10">
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={() => setSelectedMessage(null)}
-              className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700/50 transition-colors"
+        <div className="backdrop-blur-lg rounded-lg p-4 border" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => setSelectedMessage(null)}
+                className="p-2 rounded-lg transition-colors hover:scale-105"
+                style={{ color: 'var(--text-secondary)' }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--button-secondary)'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              
+              <div className="relative">
+                <img
+                  src={selectedMessage.avatar}
+                  alt={selectedMessage.name}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                {selectedMessage.isOnline && (
+                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 rounded-full" style={{ borderColor: 'var(--bg-primary)' }}></div>
+                )}
+              </div>
+              
+              <div>
+                <h3 className="font-medium" style={{ color: 'var(--text-primary)' }}>{selectedMessage.name}</h3>
+                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{selectedMessage.project}</p>
+              </div>
+            </div>
+            
+            <button 
+              className="p-2 rounded-lg transition-colors hover:scale-105" 
+              style={{ color: 'var(--text-secondary)' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--button-secondary)'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
             >
-              <ArrowLeft className="w-5 h-5" />
+              <MoreVertical className="w-5 h-5" />
             </button>
-            
-            <div className="relative">
-              <img
-                src={selectedMessage.avatar}
-                alt={selectedMessage.name}
-                className="w-10 h-10 rounded-full object-cover"
-              />
-              {selectedMessage.isOnline && (
-                <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-gray-900 rounded-full"></div>
-              )}
-            </div>
-            
-            <div>
-              <h3 className="text-white font-medium">{selectedMessage.name}</h3>
-              <p className="text-gray-400 text-sm">{selectedMessage.project}</p>
-            </div>
           </div>
-          
-          <button className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700/50 transition-colors">
-            <MoreVertical className="w-5 h-5" />
-          </button>
         </div>
 
         {/* Chat Messages */}
-        <div className="bg-white/5 backdrop-blur-lg rounded-lg border border-white/10 min-h-[400px] max-h-[500px] overflow-y-auto p-4">
+        <div className="backdrop-blur-lg rounded-lg border min-h-[400px] max-h-[500px] overflow-y-auto p-4" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
           {chatMessages.length === 0 ? (
             <div className="flex items-center justify-center h-full">
-              <p className="text-gray-400">No messages yet. Start the conversation!</p>
+              <p style={{ color: 'var(--text-secondary)' }}>No messages yet. Start the conversation!</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -307,11 +323,14 @@ const Messages = () => {
         </div>
 
         {/* Message Input */}
-        <form onSubmit={handleSendMessage} className="bg-white/5 backdrop-blur-lg rounded-lg p-4 border border-white/10">
+        <form onSubmit={handleSendMessage} className="backdrop-blur-lg rounded-lg p-4 border" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
           <div className="flex items-end space-x-3">
             <button
               type="button"
-              className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700/50 transition-colors"
+              className="p-2 rounded-lg transition-colors hover:scale-105"
+              style={{ color: 'var(--text-secondary)' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--button-secondary)'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
             >
               <Paperclip className="w-5 h-5" />
             </button>
@@ -323,7 +342,12 @@ const Messages = () => {
                 placeholder="Type your message..."
                 rows={2}
                 autoComplete="off"
-                className="w-full px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-white placeholder-gray-400 resize-none"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 resize-none transition-all duration-300"
+                style={{
+                  backgroundColor: 'var(--bg-secondary)',
+                  borderColor: 'var(--border-color)',
+                  color: 'var(--text-primary)'
+                }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -335,7 +359,10 @@ const Messages = () => {
             
             <button
               type="button"
-              className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700/50 transition-colors"
+              className="p-2 rounded-lg transition-colors hover:scale-105"
+              style={{ color: 'var(--text-secondary)' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--button-secondary)'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
             >
               <Smile className="w-5 h-5" />
             </button>
@@ -343,7 +370,8 @@ const Messages = () => {
             <button
               type="submit"
               disabled={!newMessage.trim()}
-              className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="p-2 rounded-lg hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              style={{ backgroundColor: 'var(--button-primary)', color: 'var(--bg-primary)' }}
             >
               <Send className="w-5 h-5" />
             </button>
@@ -358,36 +386,41 @@ const Messages = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-1">Messages</h2>
-          <p className="text-gray-400">Connect with clients and manage conversations</p>
+          <h2 className="text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Messages</h2>
+          <p style={{ color: 'var(--text-secondary)' }}>Connect with clients and manage conversations</p>
         </div>
       </div>
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
         <input
           type="text"
           placeholder="Search messages..."
           value={searchTerm}
           onChange={handleSearchChange}
           autoComplete="off"
-          className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-white placeholder-gray-400"
+          className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-300"
+          style={{
+            backgroundColor: 'var(--bg-secondary)',
+            borderColor: 'var(--border-color)',
+            color: 'var(--text-primary)'
+          }}
         />
       </div>
 
       {/* Messages List */}
-      <div className="bg-white/5 backdrop-blur-lg rounded-lg border border-white/10 min-h-[500px]">
+      <div className="backdrop-blur-lg rounded-lg border min-h-[500px]" style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}>
         {filteredMessages.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 px-8">
-            <div className="w-24 h-24 bg-gray-700/30 rounded-full flex items-center justify-center mb-6">
-              <Search className="w-12 h-12 text-gray-500" />
+            <div className="w-24 h-24 rounded-full flex items-center justify-center mb-6" style={{ backgroundColor: 'var(--button-secondary)' }}>
+              <Search className="w-12 h-12" style={{ color: 'var(--text-secondary)' }} />
             </div>
-            <h3 className="text-xl font-semibold text-white mb-2">No messages found</h3>
-            <p className="text-gray-400 text-center">Try adjusting your search terms</p>
+            <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>No messages found</h3>
+            <p className="text-center" style={{ color: 'var(--text-secondary)' }}>Try adjusting your search terms</p>
           </div>
         ) : (
-          <div className="divide-y divide-gray-700/50">
+          <div className="divide-y" style={{ borderColor: 'var(--border-color)' }}>
             {filteredMessages.map((message) => (
               <MessageItem
                 key={message.id}
