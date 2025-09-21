@@ -12,6 +12,10 @@ const SignUpPage = () => {
     skills: '',
   });
   const [localError, setLocalError] = useState('');
+  const [passwordValidation, setPasswordValidation] = useState({
+    isValid: true,
+    message: ''
+  });
 
   const { name, email, password, university, skills } = formData;
   const navigate = useNavigate();
@@ -19,6 +23,22 @@ const SignUpPage = () => {
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    
+    // Real-time password validation
+    if (e.target.name === 'password') {
+      if (e.target.value.length < 6 && e.target.value.length > 0) {
+        setPasswordValidation({
+          isValid: false,
+          message: 'Password must be at least 6 characters'
+        });
+      } else {
+        setPasswordValidation({
+          isValid: true,
+          message: ''
+        });
+      }
+    }
+    
     // Clear errors when user starts typing
     if (error) clearError();
     if (localError) setLocalError('');
@@ -27,7 +47,19 @@ const SignUpPage = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     
+    // Frontend validation
+    if (password.length < 6) {
+      setLocalError('Password must be at least 6 characters long');
+      return;
+    }
+    
+    if (!email.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)) {
+      setLocalError('Please enter a valid email address');
+      return;
+    }
+    
     try {
+      console.log('Starting registration...');
       await register({
         name,
         email,
@@ -113,8 +145,15 @@ const SignUpPage = () => {
               onChange={onChange}
               required
               disabled={isLoading}
-              className="shadow appearance-none border rounded w-full py-3 px-4 leading-tight focus:outline-none focus:shadow-outline bg-gray-800/50 border-gray-700 text-white disabled:opacity-50"
+              className={`shadow appearance-none border rounded w-full py-3 px-4 leading-tight focus:outline-none focus:shadow-outline bg-gray-800/50 border-gray-700 text-white disabled:opacity-50 ${
+                !passwordValidation.isValid ? 'border-red-500' : ''
+              }`}
             />
+            <p className={`text-xs mt-1 ${
+              !passwordValidation.isValid ? 'text-red-400' : 'text-gray-400'
+            }`}>
+              {passwordValidation.message || 'Password must be at least 6 characters long'}
+            </p>
           </div>
           <div>
             <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="university">

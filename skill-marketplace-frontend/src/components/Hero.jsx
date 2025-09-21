@@ -1,7 +1,18 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Hero = () => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    } else {
+      navigate('/signup');
+    }
+  };
   return (
     <section className="relative h-screen flex items-center justify-center text-center">
       <div className="container mx-auto px-6">
@@ -33,11 +44,13 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
           className="mt-10 flex justify-center gap-4"
         >
-          <Link to="/dashboard">
-            <button className="px-8 py-3 font-bold rounded-full hover:scale-105 transform transition-all duration-300" style={{ backgroundColor: 'var(--button-primary)', color: 'var(--bg-primary)' }}>
-              Get Started
-            </button>
-          </Link>
+          <button 
+            onClick={handleGetStarted}
+            className="px-8 py-3 font-bold rounded-full hover:scale-105 transform transition-all duration-300" 
+            style={{ backgroundColor: 'var(--button-primary)', color: 'var(--bg-primary)' }}
+          >
+            Get Started
+          </button>
           <a href="#features">
             <button className="px-8 py-3 backdrop-blur-md font-bold rounded-full border transform transition-all duration-300 hover:scale-105" style={{ backgroundColor: 'var(--button-secondary)', color: 'var(--text-primary)', borderColor: 'var(--border-color)' }}>
               Learn More

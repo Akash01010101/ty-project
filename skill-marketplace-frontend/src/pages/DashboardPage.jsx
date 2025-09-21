@@ -9,12 +9,27 @@ import Orders from '../components/Orders';
 import ExpenseIncome from '../components/ExpenseIncome';
 import UserSearch from '../components/UserSearch';
 import ThemeToggle from '../components/ThemeToggle';
+import { useAuth } from '../context/AuthContext';
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState('Browse Gigs');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const location = useLocation();
   const navigate = useNavigate();
+  const { logout, user } = useAuth();
+  
+  // Logout handler
+  const handleLogout = () => {
+    try {
+      console.log('Logging out from dashboard...');
+      logout();
+      // Use window.location to bypass ProtectedRoute redirect
+      window.location.href = '/';
+      console.log('Dashboard logout successful - redirected to landing page');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
   
   // Check URL parameters to set active tab
   useEffect(() => {
@@ -144,9 +159,13 @@ const DashboardPage = () => {
                   
                   {/* User Text Info */}
                   <div className="flex flex-col sm:items-start">
-                    <span className="text-xs sm:text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Userwhenlogin</span>
+                    <span className="text-xs sm:text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+                      {user?.name || 'User'}
+                    </span>
                     {/* Hide university on mobile, show on sm+ screens */}
-                    <span className="hidden sm:block text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>State University</span>
+                    <span className="hidden sm:block text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>
+                      {user?.university || 'State University'}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -155,6 +174,7 @@ const DashboardPage = () => {
               <div className="flex items-center space-x-2 sm:space-x-3">
                 <ThemeToggle />
                 <button 
+                  onClick={handleLogout}
                   className="px-3 py-2 sm:px-4 border rounded-lg hover:scale-105 transition-all duration-300 text-xs sm:text-sm font-medium min-h-[44px] flex items-center justify-center touch-manipulation" 
                   style={{ 
                     color: 'var(--text-accent)', 

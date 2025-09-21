@@ -33,9 +33,17 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    logout();
-    setShowUserMenu(false);
-    navigate('/');
+    try {
+      console.log('Logging out...');
+      logout();
+      setShowUserMenu(false);
+      setIsOpen(false); // Also close mobile menu
+      // Use window.location to bypass ProtectedRoute redirect
+      window.location.href = '/';
+      console.log('Logout successful - redirected to landing page');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   return (
@@ -77,26 +85,9 @@ const Header = () => {
                   style={{ backgroundColor: 'var(--bg-accent)', borderColor: 'var(--border-color)' }}
                 >
                   <div className="py-2">
-                    <Link
-                      to="/dashboard"
-                      className="block px-4 py-2 transition-colors duration-300"
-                      style={{ color: 'var(--text-secondary)' }}
-                      onMouseEnter={(e) => e.target.style.color = 'var(--text-primary)'}
-                      onMouseLeave={(e) => e.target.style.color = 'var(--text-secondary)'}
-                      onClick={() => setShowUserMenu(false)}
-                    >
-                      Dashboard
-                    </Link>
-                    <Link
-                      to="/wallet"
-                      className="block px-4 py-2 transition-colors duration-300"
-                      style={{ color: 'var(--text-secondary)' }}
-                      onMouseEnter={(e) => e.target.style.color = 'var(--text-primary)'}
-                      onMouseLeave={(e) => e.target.style.color = 'var(--text-secondary)'}
-                      onClick={() => setShowUserMenu(false)}
-                    >
-                      Wallet
-                    </Link>
+                    <div className="px-4 py-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                      Welcome, {user?.name}!
+                    </div>
                     <hr className="my-2" style={{ borderColor: 'var(--border-color)' }} />
                     <button
                       onClick={handleLogout}
@@ -138,10 +129,8 @@ const Header = () => {
               <>
                 <div className="flex items-center space-x-2 py-2" style={{ color: 'var(--text-primary)' }}>
                   <User size={20} />
-                  <span className="font-medium">{user?.name || 'User'}</span>
+                  <span className="font-medium">Welcome, {user?.name}!</span>
                 </div>
-                <Link to="/dashboard" className="block transition-colors duration-300" style={{ color: 'var(--text-secondary)' }} onMouseEnter={(e) => e.target.style.color = 'var(--text-primary)'} onMouseLeave={(e) => e.target.style.color = 'var(--text-secondary)'} onClick={() => setIsOpen(false)}>Dashboard</Link>
-                <Link to="/wallet" className="block transition-colors duration-300" style={{ color: 'var(--text-secondary)' }} onMouseEnter={(e) => e.target.style.color = 'var(--text-primary)'} onMouseLeave={(e) => e.target.style.color = 'var(--text-secondary)'} onClick={() => setIsOpen(false)}>Wallet</Link>
                 <button
                   onClick={handleLogout}
                   className="w-full text-left transition-colors duration-300 flex items-center space-x-2"

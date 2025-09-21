@@ -1,11 +1,13 @@
-const API_BASE_URL = 'http://localhost:9000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:9000';
+const API_URL = `${API_BASE_URL}/api`;
 
 // Auth API service functions
 export const authAPI = {
   // Register new user
   register: async (userData) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/register`, {
+      console.log('Sending registration data:', userData);
+      const response = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -13,7 +15,9 @@ export const authAPI = {
         body: JSON.stringify(userData),
       });
 
+      console.log('Registration response status:', response.status);
       const data = await response.json();
+      console.log('Registration response data:', data);
       
       if (!response.ok) {
         throw new Error(data.message || 'Registration failed');
@@ -35,7 +39,7 @@ export const authAPI = {
   // Login user
   login: async (credentials) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +81,7 @@ export const authAPI = {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+      const response = await fetch(`${API_URL}/auth/profile`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -112,7 +116,7 @@ export const authAPI = {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+      const response = await fetch(`${API_URL}/auth/profile`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -148,7 +152,7 @@ export const authAPI = {
         return false;
       }
 
-      const response = await fetch(`${API_BASE_URL}/auth/verify`, {
+      const response = await fetch(`${API_URL}/auth/verify`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
