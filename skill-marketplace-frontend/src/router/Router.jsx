@@ -9,21 +9,45 @@ import GigDetailPage from '../pages/GigDetailPage';
 import TeamPage from '../pages/TeamPage';
 import WalletPage from '../pages/WalletPage';
 import ManageOffersPage from '../pages/ManageOffersPage';
+import ProtectedRoute from '../components/ProtectedRoute';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/create-gig" element={<CreateGigPage />} />
         <Route path="/gigs" element={<GigsPage />} />
         <Route path="/gig/:id" element={<GigDetailPage />} />
-        <Route path="/team/:id" element={<TeamPage />} />
-        <Route path="/wallet" element={<WalletPage />} />
-        <Route path="/manage-offers" element={<ManageOffersPage />} />
+        
+        {/* Protected Routes */}
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/create-gig" element={
+          <ProtectedRoute>
+            <CreateGigPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/team/:id" element={
+          <ProtectedRoute>
+            <TeamPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/wallet" element={
+          <ProtectedRoute>
+            <WalletPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/manage-offers" element={
+          <ProtectedRoute>
+            <ManageOffersPage />
+          </ProtectedRoute>
+        } />
       </Routes>
     </BrowserRouter>
   );

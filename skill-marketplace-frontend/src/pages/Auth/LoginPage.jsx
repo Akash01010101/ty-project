@@ -1,41 +1,40 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  const [localError, setLocalError] = useState('');
 
   const { email, password } = formData;
   const navigate = useNavigate();
+  const { login, isLoading, error, clearError } = useAuth();
 
-  const onChange = (e) =>
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Clear errors when user starts typing
+    if (error) clearError();
+    if (localError) setLocalError('');
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        console.log('Login successful', data);
-        localStorage.setItem('token', data.token); // Store token
-        navigate('/dashboard'); // Redirect to dashboard
-      } else {
-        console.error('Login failed', data);
-      }
+      await login({ email, password });
+      console.log('Login successful');
+      navigate('/dashboard'); // Redirect to dashboard
     } catch (error) {
-      console.error('Error during login', error);
+      console.error('Login failed:', error);
+      setLocalError(error.message || 'Login failed. Please try again.');
     }
   };
+
+  const displayError = error || localError;
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -50,6 +49,18 @@ const LoginPage = () => {
             Login
           </span>
         </h2>
+        
+        {/* Error Display */}
+        {displayError && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300 text-sm"
+          >
+            {displayError}
+          </motion.div>
+        )}
+
         <form onSubmit={onSubmit} className="space-y-6">
           <div>
             <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="email">
@@ -62,7 +73,8 @@ const LoginPage = () => {
               value={email}
               onChange={onChange}
               required
-              className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-800/50 border-gray-700 text-white"
+              disabled={isLoading}
+              className="shadow appearance-none border rounded w-full py-3 px-4 leading-tight focus:outline-none focus:shadow-outline bg-gray-800/50 border-gray-700 text-white disabled:opacity-50"
             />
           </div>
           <div>
@@ -76,16 +88,18 @@ const LoginPage = () => {
               value={password}
               onChange={onChange}
               required
-              className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-800/50 border-gray-700 text-white"
+              disabled={isLoading}
+              className="shadow appearance-none border rounded w-full py-3 px-4 leading-tight focus:outline-none focus:shadow-outline bg-gray-800/50 border-gray-700 text-white disabled:opacity-50"
             />
           </div>
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: isLoading ? 1 : 1.05 }}
+            whileTap={{ scale: isLoading ? 1 : 0.95 }}
             type="submit"
-            className="w-full px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-full hover:scale-105 transform transition-transform duration-300"
+            disabled={isLoading}
+            className="w-full px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-full hover:scale-105 transform transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
-            Login
+            {isLoading ? 'Logging in...' : 'Login'}
           </motion.button>
         </form>
         <p className="mt-6 text-center text-gray-400">
